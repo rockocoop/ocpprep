@@ -65,6 +65,7 @@ pre-install.yml:
 - Sets up etcd storage on separate disk (optional)
 - Install support packages
 - Sets hostname
+- Sets keepalived VIP in front of LBs (optional)
 
 post-jobs.yml:
 - Adds cluster data store to external grafana server
@@ -79,6 +80,16 @@ Under all:vars
 - ntp = uncomment and add a list of ntp servers (optional)
 - openshift_docker_insecure_registries = set docker registry IP
 - yumrepo_url = set the IP for the internal yum repo
+
+############################
+(Optional) In the case of using 2 internal load balancers, you can use the following parameters to 
+deploy keepalived VIP in front of them.  If not then comment them out
+
+- keepalived_vip = virtual floating ip to be used 
+- keepalived_interface = interface on the loadblancers to be used (ie. eth0)
+- keepalived_vrrpid = random unique integer
+############################
+
 
 Following are for adding the cluster to external Grafana Server as part of the 
 post-jobs.yml. (Optional)
