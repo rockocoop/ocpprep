@@ -1,0 +1,16 @@
+driftfile /var/lib/ntp/drift
+restrict default nomodify notrap nopeer noquery
+restrict 127.0.0.1
+restrict ::1
+
+{% if ntp is defined %}
+{% for item in ntp %}
+server {{ item }}
+{% endfor %}
+{% endif %}
+
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys
+
+disable monitor
+                                          

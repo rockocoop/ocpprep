@@ -1,0 +1,27 @@
+- name: install subscription-manager
+  package:
+    name: subscription-manager
+    state: present
+
+- name: Register and attach to pool
+  redhat_subscription:
+    state: present
+    username: "{{rheluser}}"
+    password: "{{rhelpass}}"
+    pool_ids: "{{rhelpool}}"
+  register: loginrhel
+
+- name: Detach existing subscriptions
+  shell: "subscription-manager repos --disable=*"
+  when: "loginrhel.changed == true"
+
+- name: Attach to needed subscriptions
+  shell: 'subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ose-3.11-rpms"'
+  when: "loginrhel.changed == true"
+
+#- name: Log into rhel io registry 
+#  docker_login:
+#    registry: registry.redhat.io
+#    username: "{{rheluser}}"
+#    password: "{{rhelpass}}"
+#  when: "inventory_hostname not in groups['lb']"

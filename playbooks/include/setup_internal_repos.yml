@@ -1,0 +1,22 @@
+---
+- name: mkdir oldrepos
+  file:
+   path: /etc/yum.repos.d/.oldrepos
+   state: directory
+  tags: mkdir_oldrepos
+
+- name: Check to see if any repo files found in /etc/yum.repos.d
+  find:
+    paths: "/etc/yum.repos.d"
+    patterns: "*.repo"
+  register: repo_files
+
+- name: Move all yum.repo files to /etc/yum.repos.d/.oldrepos
+  shell: "mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/.oldrepos/"
+  tags: mv_repo
+  when: repo_files.matched|int > 0
+
+- name: RHEL Openshift repos setup
+  template:
+    src: templates/setup_internal_repos.yml
+    dest: /etc/yum.repos.d/ose.repo

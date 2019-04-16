@@ -1,0 +1,25 @@
+- name:               Include imagelist_vars.yml
+  include_vars:
+    file:             "{{ imagelistpath}}"
+
+- when: openshift_docker_additional_registries is defined
+  block:
+  - shell: "grep -h 'openshift_image_tag=' {{inventory_file}} | head -1 | cut -d= -f2"
+    register: result
+  - set_fact: openshift_image_tag={{result.stdout_lines[0]}}
+
+  - name: Load Images
+    shell: "docker load < {{item}}"
+    with_items: "{{imagestar}}"
+
+  - name: ReTag Images
+    shell: "docker tag {{item}} {{openshift_docker_insecure_registries.split(',')[0]}}/{{item}}"
+    with_items: "{{images}}"
+
+  - name: Push Images
+    shell: "docker push {{openshift_docker_insecure_registries.split(',')[0]}}/{{item}}"
+    with_items: "{{images}}"
+
+  - name: RMI old Tag
+    shell: "docker rmi {{item}}"
+    with_items: "{{images}}"

@@ -1,0 +1,33 @@
+- name: Install Docker | install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - docker
+    - ethtool
+
+- name: Install Docker | setup docker storage
+  template:
+    src: templates/docker-storage-setup.j2
+    dest: /etc/sysconfig/docker-storage-setup
+  register: dockersetup
+
+- name: Install Docker | create docker partition
+  shell: ". /etc/sysconfig/docker-storage-setup"
+  when: "dockersetup.changed == true"
+
+- name: Install Docker | add insecure registry
+  template:
+    src: templates/daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: Install Docker | enable docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: docker_restart
+  service:
+    name: docker
+    state: restarted

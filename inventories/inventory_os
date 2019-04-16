@@ -1,0 +1,97 @@
+[all:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+cluster_timezone=UTC
+searchdomain=iaf.modtest.com
+#uncomment the following options if you want to set the dns and ntp on the target machines
+#ntp=["10.56.190.1","10.56.190.2"]
+#dns=["10.36.200.201","10.56.190.1"]
+
+#Below enter the IP of the yum repo and registry to be used
+openshift_docker_insecure_registries=<registryIp>:5000
+yumrepo_url=<yumrepoIp>
+
+###LB HA Option### #
+#Use in case LB HA is needed
+#When used the above parameter <MASTER-API-FQDN> should be set to the FQDN of the keepalived_vip
+#Machines used to access the UI should have this set in the hosts file or it should be defined in the DNS
+#keepalived_vip=<Virtual Floating IP>
+#keepalived_interface=<node interface on load balancers for VIP>
+#keepalived_vrrpid=<uniqueId>
+
+
+#Connect to external grafana.  Leave commented out to skip (Optional)
+#grafanaURL: "http://<grafanaIP>:3000"
+#grafanaPass: "<admin password>"
+#grafanaClusterName: "<desired datastore name"
+#grafmas: "FQDN of one of the OCP master nodes"
+#prometheusURL: "https://prometheus-k8s-openshift-monitoring.<subdomain>"
+
+
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+
+[OSEv3:vars]
+ansible_ssh_user=grakover
+ansible_become=true
+debug_level=2
+openshift_deployment_type=openshift-enterprise
+openshift_image_tag=v3.11.82
+openshift_pkg_version=-3.11.82
+openshift_release="3.11.82"
+openshift_master_default_subdomain=iaf.modtest.com
+openshift_master_cluster_hostname=ocplb1.iaf.modtest.com
+openshift_master_cluster_public_hostname=ocplb1.iaf.modtest.com
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+# below password is "redhat"
+openshift_master_htpasswd_users={'admin':'$apr1$udcx1.9E$XZmOZkWhIRa5lzxIcBOxz1'}
+#Update internal docker registry IP below
+oreg_url=<registryIp>:5000/openshift3/ose-${component}:${version}
+openshift_examples_modify_imagestreams=true
+openshift_enable_service_catalog=true
+os_firewall_use_firewalld=True
+openshift_hosted_manage_registry=True
+openshift_cluster_monitoring_operator_install=True
+openshift_logging_install_logging=True
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
+
+#host group for masters
+[masters]
+osm1.iaf.modtest.com ansible_ssh_host=osm1.iaf.modtest.com openshift_public_hostname=osm1.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
+osm2.iaf.modtest.com ansible_ssh_host=osm2.iaf.modtest.com openshift_public_hostname=osm2.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
+osm3.iaf.modtest.com ansible_ssh_host=osm3.iaf.modtest.com openshift_public_hostname=osm3.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
+
+
+[masters:vars]
+
+#host group for minions
+[minions]
+osminion1.iaf.modtest.com ansible_ssh_host=osminion1.iaf.modtest.com openshift_public_hostname=osminion1.iaf.modtest.com hostname=osminion1 openshift_schedulable=true openshift_node_group_name=node-config-infra
+osminion2.iaf.modtest.com ansible_ssh_host=osminion2.iaf.modtest.com openshift_public_hostname=osminion2.iaf.modtest.com hostname=osminion2 openshift_schedulable=true openshift_node_group_name=node-config-infra
+osminion3.iaf.modtest.com ansible_ssh_host=osminion3.iaf.modtest.com openshift_public_hostname=osminion3.iaf.modtest.com hostname=osminion3 openshift_schedulable=true openshift_node_group_name=node-config-infra
+osminion4.iaf.modtest.com ansible_ssh_host=osminion4.iaf.modtest.com openshift_public_hostname=osminion4.iaf.modtest.com hostname=osminion4 openshift_schedulable=true openshift_node_group_name=node-config-compute
+osminion5.iaf.modtest.com ansible_ssh_host=osminion5.iaf.modtest.com openshift_public_hostname=osminion5.iaf.modtest.com hostname=osminion5 openshift_schedulable=true openshift_node_group_name=node-config-compute
+
+
+[minions:vars]
+
+#host group for nodes
+[nodes:children]
+masters
+minions
+
+[nodes:vars]
+#Required: Specify the extra disk to be used for docker storage.
+pv_device=sdb
+
+[etcd:children]
+masters
+
+[etcd:vars]
+#Optional: set the following variable to the extra disk you would like to use for etcd mount. If not set then etcd uses the local disk
+#pv_etcd=sdc
+
+[lb]
+ocplb1.iaf.modtest.com ansible_ssh_host=ocplb1.iaf.modtest.com openshift_public_hostname=ocplb1.iaf.modtest.com hostname=ocplb1

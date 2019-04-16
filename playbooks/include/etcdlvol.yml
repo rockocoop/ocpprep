@@ -1,0 +1,28 @@
+- name: ETCD Storage | Create volume group
+  lvg:
+    vg: vgetcd
+    pvs: /dev/{{pv_etcd}}
+
+- name: ETCD Storage | Create a logical volume
+  lvol:
+    vg: vgetcd
+    lv: lvetcd
+    pvs: /dev/{{pv_etcd}}
+    size: "100%VG"
+
+- name: ETCD Storage | Create ext4 filesystem
+  filesystem:
+    fstype: ext4
+    dev: /dev/vgetcd/lvetcd
+
+- name: ETCD Storage | Create mount point
+  file:
+    path: /var/lib/etcd/
+    state: directory
+
+- name: ETCD Storage | Mount disk
+  mount:
+    path: /var/lib/etcd
+    src: /dev/vgetcd/lvetcd
+    fstype: ext4
+    state: mounted

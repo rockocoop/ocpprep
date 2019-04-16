@@ -1,0 +1,7 @@
+search {{ searchdomain }}
+{% if dns is defined %}
+{% for item in dns %}
+nameserver {{ item }}
+{% endfor %}
+{% endif %}
+
