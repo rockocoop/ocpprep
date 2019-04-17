@@ -80,6 +80,7 @@ Under all:vars
 - ntp = uncomment and add a list of ntp servers (optional)
 - openshift_docker_insecure_registries = set docker registry IP
 - yumrepo_url = set the IP for the internal yum repo
+- buildhosts = sets if to update the hosts file on the servers.  valid values are true or false
 
 ############################
 (Optional) In the case of using 2 internal load balancers, you can use the following parameters to 
