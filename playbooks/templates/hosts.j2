@@ -3,12 +3,12 @@
 
 {% if groups['lb'] is defined %}
 {% for item in groups['lb'] %}
-{{ hostvars[item].ansible_default_ipv4.address }}  {{ hostvars[item]['openshift_hostname'] }} {{ hostvars[item]['openshift_hostname'] }}.{{ openshift_master_default_subdomain }}
+{{ hostvars[item].ansible_default_ipv4.address }}  {{ hostvars[item].ansible_hostname }}
 {% endfor %}
 {% endif %}
 {% if groups['nodes'] is defined %}
 {% for item in groups['masters'] %}
-{{ hostvars[item].ansible_default_ipv4.address }}  {{ hostvars[item]['openshift_hostname'] }} {{ hostvars[item]['openshift_hostname'] }}.{{ openshift_master_default_subdomain }}
+{{ hostvars[item].ansible_default_ipv4.address }}  {{ hostvars[item].ansible_hostname }} 
 {% endfor %}
 {% endif %}
 {% if keepalived_vip is defined %}
