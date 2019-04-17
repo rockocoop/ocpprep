@@ -60,7 +60,6 @@
        src: templates/hosts.j2
        dest: /etc/hosts
      when: buildhosts is defined and buildhosts == "true" 
-     delegate_to: localhost
 
    handlers:
    - name: ntp_restart

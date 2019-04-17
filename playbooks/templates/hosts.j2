@@ -7,7 +7,7 @@
 {% endfor %}
 {% endif %}
 {% if groups['nodes'] is defined %}
-{% for item in groups['masters'] %}
+{% for item in groups['nodes'] %}
 {{ hostvars[item].ansible_default_ipv4.address }}  {{ hostvars[item].ansible_hostname }} 
 {% endfor %}
 {% endif %}
