@@ -1,24 +1,14 @@
----
-- hosts: all
-  become: true
-  tasks:
-  - name: update /etc/hosts on all nodes with ivpcoe-vip
-    lineinfile: dest=/etc/hosts
-                line='{{ keepalived_vip }}  {{ openshift_master_cluster_hostname }}'
+- name: install keepalived on lb nodes
+  package: name={{item}}
+  with_items:
+   - keepalived
 
+- name: create keepalived.conf
+  template: src=../templates/keepalived.conf dest=/etc/keepalived/keepalived.conf
+  notify: restart keepalived
 
-- hosts: lb
-  become: true
-  tasks:
-  - name: install keepalived on lb nodes
-    package: name={{item}}
-    with_items:
-     - keepalived
-
-  - name: create keepalived.conf
-    template: src=../templates/keepalived.conf dest=/etc/keepalived/keepalived.conf
-    notify: restart keepalived
-
-  handlers:
-  - name: restart keepalived
-    service: name=keepalived state=restarted enabled=yes
+- name: restart keepalived
+  service: 
+    name: keepalived 
+    state: restarted 
+    enabled: yes

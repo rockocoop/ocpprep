@@ -40,7 +40,10 @@
      notify:   ntp_restart
 
    - name:     Configure NTP | start ntp daemon
-     service:  name=ntpd enabled=yes state=started
+     service:  
+       name: ntpd 
+       enabled: yes 
+       state: started
 
    - name: update resolv file for dns
      template:
@@ -53,19 +56,30 @@
        name: "{{ hostname }}"
 
    - name: Build hosts file
-     lineinfile:
-       path: /etc/hosts
-       line: "{{ hostvars[item].ansible_default_ipv4.address }} {{item}}"
-       state: present
-     when: 'hostvars[item].ansible_default_ipv4.address is defined'
-     with_items:
-       - "{{ groups['OSEv3'] }}"
+     template:
+       src: templates/hosts.j2
+       dest: /etc/hosts
+     when: buildhosts is defined and buildhosts == "true" 
+
 
    handlers:
    - name: ntp_restart
      service:
        name: ntpd
        state: restarted
+
+
+ - name: Setup keepalived
+   hosts: lb
+   become: true
+   gather_facts: true
+
+
+   tasks:
+
+
+   - include: include/keepalived.yml
+     when: keepalived_vip is defined
 
  
  - name: Install Docker
@@ -110,9 +124,6 @@
    - name: setup etcd storage
      include_tasks: include/etcdlvol.yml
      when: inventory_hostname in groups['etcd'] and pv_etcd is defined
-
-   - include: include/keepalived.yml
-     when: keepalived_vip is defined
 
 
    handlers:

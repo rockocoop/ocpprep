@@ -2,6 +2,8 @@
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 cluster_timezone=UTC
 searchdomain=iaf.modtest.com
+#following is if you want to build hosts file entries.  set to true or false
+buildhosts=true
 #uncomment the following options if you want to set the dns and ntp on the target machines
 #ntp=["10.56.190.1","10.56.190.2"]
 #dns=["10.36.200.201","10.56.190.1"]
