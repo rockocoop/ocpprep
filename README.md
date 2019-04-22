@@ -79,7 +79,7 @@ Under all:vars
 - searchdomain = default search domain to add to resolv.conf
 - ntp = uncomment and add a list of ntp servers (optional)
 - openshift_docker_insecure_registries = set docker registry IP
-- yumrepo_url = set the IP for the internal yum repo
+- yumrepo_url = set the IP and path if needed for the internal yum repo (ie. 10.0.0.1 or 10.0.0.1/repos)
 - buildhosts = sets if to update the hosts file on the servers.  valid values are "true" or "false"
 
 ############################

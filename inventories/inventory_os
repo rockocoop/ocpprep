@@ -61,20 +61,20 @@ openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
 
 #host group for masters
 [masters]
-osm1.iaf.modtest.com ansible_ssh_host=osm1.iaf.modtest.com openshift_public_hostname=osm1.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
-osm2.iaf.modtest.com ansible_ssh_host=osm2.iaf.modtest.com openshift_public_hostname=osm2.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
-osm3.iaf.modtest.com ansible_ssh_host=osm3.iaf.modtest.com openshift_public_hostname=osm3.iaf.modtest.com openshift_schedulable=true openshift_node_group_name=node-config-master
+osm1.iaf.modtest.com openshift_ip=<ip> openshift_node_group_name=node-config-master disks=[100,100]
+osm2.iaf.modtest.com openshift_ip=<ip> openshift_node_group_name=node-config-master disks=[100,100]
+osm3.iaf.modtest.com openshift_ip=<ip> openshift_node_group_name=node-config-master disks=[100,100]
 
 
 [masters:vars]
 
 #host group for minions
 [minions]
-osminion1.iaf.modtest.com ansible_ssh_host=osminion1.iaf.modtest.com openshift_public_hostname=osminion1.iaf.modtest.com hostname=osminion1 openshift_schedulable=true openshift_node_group_name=node-config-infra
-osminion2.iaf.modtest.com ansible_ssh_host=osminion2.iaf.modtest.com openshift_public_hostname=osminion2.iaf.modtest.com hostname=osminion2 openshift_schedulable=true openshift_node_group_name=node-config-infra
-osminion3.iaf.modtest.com ansible_ssh_host=osminion3.iaf.modtest.com openshift_public_hostname=osminion3.iaf.modtest.com hostname=osminion3 openshift_schedulable=true openshift_node_group_name=node-config-infra
-osminion4.iaf.modtest.com ansible_ssh_host=osminion4.iaf.modtest.com openshift_public_hostname=osminion4.iaf.modtest.com hostname=osminion4 openshift_schedulable=true openshift_node_group_name=node-config-compute
-osminion5.iaf.modtest.com ansible_ssh_host=osminion5.iaf.modtest.com openshift_public_hostname=osminion5.iaf.modtest.com hostname=osminion5 openshift_schedulable=true openshift_node_group_name=node-config-compute
+osminion1.iaf.modtest.com openshift_ip=<ip> hostname=osminion1 openshift_node_group_name=node-config-infra disks=[100,100]
+osminion2.iaf.modtest.com openshift_ip=<ip> hostname=osminion2 openshift_node_group_name=node-config-infra disks=[100,100]
+osminion3.iaf.modtest.com openshift_ip=<ip> hostname=osminion3 openshift_node_group_name=node-config-infra disks=[100,100]
+osminion4.iaf.modtest.com openshift_ip=<ip> hostname=osminion4 openshift_node_group_name=node-config-compute disks=[100,100]
+osminion5.iaf.modtest.com openshift_ip=<ip> hostname=osminion5 openshift_node_group_name=node-config-compute disks=[100,100]
 
 
 [minions:vars]
@@ -96,4 +96,4 @@ masters
 #pv_etcd=sdc
 
 [lb]
-ocplb1.iaf.modtest.com ansible_ssh_host=ocplb1.iaf.modtest.com openshift_public_hostname=ocplb1.iaf.modtest.com hostname=ocplb1
+ocplb1.iaf.modtest.com openshift_ip=<ip> hostname=ocplb1 disks=[]
