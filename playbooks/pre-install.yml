@@ -78,7 +78,7 @@
   - name: update /etc/hosts on all nodes with ivpcoe-vip
     lineinfile: 
       dest: /etc/hosts
-      line: '{{ keepalived_vip }}  {{ openshift_master_cluster_hostname }}'
+      line: '{{ keepalived_vip }}  {{ openshift_master_cluster_public_hostname }}'
     when: keepalived_vip is defined     
 
 - hosts: lb
@@ -101,7 +101,10 @@
     when: keepalived_vip is defined
 
   - name: restart keepalived
-    service: name=keepalived state=restarted enabled=yes
+    service: 
+      name: keepalived 
+      state: restarted 
+      enabled: yes
     when: keepalived_vip is defined
 
  
