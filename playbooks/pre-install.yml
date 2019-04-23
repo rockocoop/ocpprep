@@ -56,10 +56,13 @@
        name: "{{ hostname }}"
 
    - name: Build hosts file
-     template:
-       src: templates/hosts.j2
-       dest: /etc/hosts
-     when: buildhosts is defined and buildhosts == "true" 
+     lineinfile:
+       path: /etc/hosts
+       line: "{{ hostvars[item].ansible_default_ipv4.address }} {{item}} {{item}}.{{searchdomain}}"
+       state: present
+     when: 'hostvars[item].ansible_default_ipv4.address is defined'
+     with_items:
+       - "{{ groups['OSEv3'] }}"
 
    handlers:
    - name: ntp_restart
@@ -67,18 +70,39 @@
        name: ntpd
        state: restarted
 
-
- - name: Setup keepalived
-   hosts: lb
-   become: true
-   gather_facts: true
+- hosts: all
+  become: true
+  tasks:
 
 
-   tasks:
+  - name: update /etc/hosts on all nodes with ivpcoe-vip
+    lineinfile: 
+      dest: /etc/hosts
+      line: '{{ keepalived_vip }}  {{ openshift_master_cluster_hostname }}'
+    when: keepalived_vip is defined     
+
+- hosts: lb
+  become: true
+  tasks:
 
 
-   - include: include/keepalived.yml
-     when: keepalived_vip is defined
+  - name: install keepalived on lb nodes
+    package: 
+      name: {{item}}
+    with_items:
+     - keepalived
+    when: keepalived_vip is defined
+
+  - name: create keepalived.conf
+    template: 
+      src: ../templates/keepalived.conf 
+      dest: /etc/keepalived/keepalived.conf
+    notify: restart keepalived
+    when: keepalived_vip is defined
+
+  - name: restart keepalived
+    service: name=keepalived state=restarted enabled=yes
+    when: keepalived_vip is defined
 
  
  - name: Install Docker
