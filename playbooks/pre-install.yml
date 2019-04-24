@@ -97,7 +97,6 @@
      template: 
        src: ../templates/keepalived.conf 
        dest: /etc/keepalived/keepalived.conf
-     notify: restart keepalived
      when: keepalived_vip is defined
 
    - name: restart keepalived
