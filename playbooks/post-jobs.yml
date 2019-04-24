@@ -46,13 +46,20 @@
       firewalld:
         port: 80/tcp
         permanent: true
+        immediate: yes
         state: enabled
 
     - name: open port 443
       firewalld:
         port: 443/tcp
         permanent: true
+        immediate: yes
         state: enabled
+
+    - name: restart firewalld
+      service: 
+        name: firewalld
+        state: restarted
 
     - name: update haproxy config on lb
       template:
