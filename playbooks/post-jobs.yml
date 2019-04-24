@@ -34,3 +34,9 @@
         validate_certs: False
         tls_skip_verify: true
       when: grafmas is defined
+
+    - name: update haproxy config on lb
+      template:
+        src: templates/haproxy.cfg
+        dest: /etc/haproxy/
+      when: routervialb is defined and routervialb is true

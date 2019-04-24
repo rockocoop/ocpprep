@@ -80,7 +80,8 @@ Under all:vars
 - ntp = uncomment and add a list of ntp servers (optional)
 - openshift_docker_insecure_registries = set docker registry IP
 - yumrepo_url = set the IP and path if needed for the internal yum repo (ie. 10.0.0.1 or 10.0.0.1/repos)
-- buildhosts = sets if to update the hosts file on the servers.  valid values are "true" or "false"
+- routervialb = configures haproxy on lb node(s) to handle traffic to router as well on port 80 and 443.
+                If using this parameter, master API port MUST be 8443. (Optional)
 
 ############################
 (Optional) In the case of using 2 internal load balancers, you can use the following parameters to 
