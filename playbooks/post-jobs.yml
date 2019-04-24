@@ -42,6 +42,18 @@
 
   tasks:
 
+    - name: open port 80
+      firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+
+    - name: open port 443
+      firewalld:
+        port: 443/tcp
+        permanent: true
+        state: enabled
+
     - name: update haproxy config on lb
       template:
         src: templates/haproxy.cfg
