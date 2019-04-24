@@ -35,6 +35,14 @@
         tls_skip_verify: true
       when: grafmas is defined
 
+
+- hosts:                lb
+  become:               true
+  gather_facts:         false
+  serial:               "%100"
+
+  tasks:
+
     - name: update haproxy config on lb
       template:
         src: templates/haproxy.cfg
