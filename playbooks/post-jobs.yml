@@ -40,3 +40,4 @@
         src: templates/haproxy.cfg
         dest: /etc/haproxy/
       when: routervialb is defined and routervialb is true
+      delegate_to: localhost

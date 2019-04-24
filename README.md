@@ -90,6 +90,12 @@ deploy keepalived VIP in front of them.  If not then comment them out
 - keepalived_vip = virtual floating ip to be used 
 - keepalived_interface = interface on the loadblancers to be used (ie. eth0)
 - keepalived_vrrpid = random unique integer
+
+You will then need to add the following parameters to each lb accordingly:
+
+- ka_state = One lb should have this set to "MASTER" and the other to "SLAVE"
+- ka_priority = The lb set to MASTER should be set to a higher number then the SLAVE (ie. 100 and 101)
+
 ############################
 
 
