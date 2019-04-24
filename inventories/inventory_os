@@ -96,5 +96,5 @@ masters
 #pv_etcd=sdc
 
 [lb]
-ocplb1.iaf.modtest.com openshift_ip=<ip> hostname=ocplb1 disks=[] ka_state=MASTER ka_priority=100
-ocplb2.iaf.modtest.com openshift_ip=<ip> hostname=ocplb2 disks=[] ka_state=SLAVE ka_priority=101
+ocplb1.iaf.modtest.com openshift_ip=<ip> hostname=ocplb1 disks=[]
+ocplb2.iaf.modtest.com openshift_ip=<ip> hostname=ocplb2 disks=[] 
