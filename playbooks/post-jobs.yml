@@ -34,12 +34,11 @@
         validate_certs: False
         tls_skip_verify: true
       when: grafmas is defined
-      ignore_errors: yes
 
 - hosts:                lb
   become:               true
   gather_facts:         false
-  serial:               "%100"
+  serial:               1
 
   tasks:
 
