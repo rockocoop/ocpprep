@@ -45,10 +45,15 @@
     - name: update haproxy config on lb
       template:
         src: templates/haproxy.cfg
-        dest: /etc/haproxy/
+        dest: haproxy.cfg
       when: routervialb is defined and routervialb == true
       delegate_to: localhost
 
+    - name: copy haproxy cfg to lb
+      copy:
+        src: haproxy.cfg
+        dest: /etc/haproxy/
+     
     - name: restart haproxy
       service:
         name: haproxy
