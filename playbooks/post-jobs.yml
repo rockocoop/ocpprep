@@ -46,5 +46,10 @@
       template:
         src: templates/haproxy.cfg
         dest: /etc/haproxy/
-      when: routervialb is defined and routervialb is true
+      when: routervialb is defined and routervialb == true
       delegate_to: localhost
+
+    - name: restart haproxy
+      service:
+        name: haproxy
+        state: restarted
