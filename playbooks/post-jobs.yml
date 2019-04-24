@@ -34,8 +34,7 @@
         validate_certs: False
         tls_skip_verify: true
       when: grafmas is defined
-      delegate_to: localhost
-
+      ignore_errors: yes
 
 - hosts:                lb
   become:               true
