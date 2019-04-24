@@ -58,7 +58,7 @@
    - name: Build hosts file
      lineinfile:
        path: /etc/hosts
-       line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].hostname }} {{ hostvars[item].hostname }}.{{ searchdomain }}"
+       line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].hostname }}"
        state: present
      when: 'hostvars[item].ansible_default_ipv4.address is defined'
      with_items:
