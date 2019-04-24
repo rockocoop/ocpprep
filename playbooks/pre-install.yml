@@ -70,42 +70,42 @@
        name: ntpd
        state: restarted
 
-- hosts: all
-  become: true
-  tasks:
+ - hosts: all
+   become: true
+   tasks:
 
 
-  - name: update /etc/hosts on all nodes with ivpcoe-vip
-    lineinfile: 
-      dest: /etc/hosts
-      line: '{{ keepalived_vip }}  {{ openshift_master_cluster_public_hostname }}'
-    when: keepalived_vip is defined     
+   - name: update /etc/hosts on all nodes with ivpcoe-vip
+     lineinfile: 
+       dest: /etc/hosts
+       line: '{{ keepalived_vip }}  {{ openshift_master_cluster_public_hostname }}'
+     when: keepalived_vip is defined     
 
-- hosts: lb
-  become: true
-  tasks:
+ - hosts: lb
+   become: true
+   tasks:
 
 
-  - name: install keepalived on lb nodes
-    package: 
-      name: {{item}}
-    with_items:
-     - keepalived
-    when: keepalived_vip is defined
+   - name: install keepalived on lb nodes
+     package: 
+       name: {{item}}
+     with_items:
+      - keepalived
+     when: keepalived_vip is defined
 
-  - name: create keepalived.conf
-    template: 
-      src: ../templates/keepalived.conf 
-      dest: /etc/keepalived/keepalived.conf
-    notify: restart keepalived
-    when: keepalived_vip is defined
+   - name: create keepalived.conf
+     template: 
+       src: ../templates/keepalived.conf 
+       dest: /etc/keepalived/keepalived.conf
+     notify: restart keepalived
+     when: keepalived_vip is defined
 
-  - name: restart keepalived
-    service: 
-      name: keepalived 
-      state: restarted 
-      enabled: yes
-    when: keepalived_vip is defined
+   - name: restart keepalived
+     service: 
+       name: keepalived 
+       state: restarted 
+       enabled: yes
+     when: keepalived_vip is defined
 
  
  - name: Install Docker
