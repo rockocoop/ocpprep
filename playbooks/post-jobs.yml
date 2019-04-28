@@ -55,6 +55,13 @@
         permanent: true
         immediate: yes
         state: enabled
+    
+    - name: open port 2379
+      firewalld:
+        port: 2379/tcp
+        permanent: true
+        immediate: yes
+        state: enabled
 
     - name: restart firewalld
       service: 
@@ -72,7 +79,14 @@
       copy:
         src: haproxy.cfg
         dest: /etc/haproxy/
-     
+
+    - name: selinux to open 2379
+      eport:
+        ports: 2379
+        proto: tcp
+        setype: http_port_t
+        state: present
+
     - name: restart haproxy
       service:
         name: haproxy
