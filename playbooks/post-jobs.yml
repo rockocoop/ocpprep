@@ -81,7 +81,7 @@
         dest: /etc/haproxy/
 
     - name: selinux to open 2379
-      eport:
+      seport:
         ports: 2379
         proto: tcp
         setype: http_port_t
