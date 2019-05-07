@@ -25,7 +25,7 @@
 
    - name: Generic question with multiple different responses
      expect:
-       command: ssh-copy-id -i {{pubkeypath}} root@{{hostvars[item]['ansible_ssh_host']}}
+       command: ssh-copy-id root@{{hostvars[item]['ansible_ssh_host']}}
        responses:
          Question:
            - "yes"
