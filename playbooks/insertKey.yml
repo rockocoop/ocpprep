@@ -19,16 +19,6 @@
      args:
        executable: /usr/bin/expect
      register: response
-     changed_when: "'sure' in response.stdout"
+     changed_when: "'Added' in response.stdout"
      with_items:
        - "{{ groups['nodes'] }}"
-
-#   - name: Generic question with multiple different responses
-#     expect:
-#       command: ssh-copy-id root@{{hostvars[item]['ansible_ssh_host']}}
-#       responses:
-#         Question:
-#           - "yes"
-#           - "{{roottemppas}}"
-#     with_items:
-#       - "{{ groups['nodes'] }}"
