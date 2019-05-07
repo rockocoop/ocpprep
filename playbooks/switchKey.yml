@@ -10,29 +10,3 @@
      file:
        path: /root/.ssh/authorized_keys
        state: absent
-
-     
- - name: login to all hosts
-   hosts: localhost
-   become: true
-   gather_facts: true
-   serial: "100%"
-
-   tasks:
-
-
-   - name: perform ssh copy id to all nodes
-     shell: |
-       set prompt "#|>|\\\$"
-       spawn ssh-copy-id root@{{hostvars[item]['ansible_ssh_host']}}
-       expect {"(yes/no)" { send "yes\r";exp_continue} "password"}
-       send "yes\r"
-       expect {"password:" { send "{{roottemppas}}\r";exp_continue} "password"}
-       send "{{roottemppas}}\r"
-       expect -re $prompt
-     args:
-       executable: /usr/bin/expect
-     register: response
-     changed_when: "'Added' in response.stdout"
-     with_items:
-       - "{{ groups['OSEv3'] }}"
