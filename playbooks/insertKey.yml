@@ -1,6 +1,6 @@
  - name: login to all hosts
    hosts: localhost
-   become: false
+   become: true
    gather_facts: true
    serial: "100%"
 
@@ -25,7 +25,7 @@
 
    - name: Generic question with multiple different responses
      expect:
-       command: ssh-copy-id -f root@{{hostvars[item]['ansible_ssh_host']}}
+       command: ssh-copy-id -i {{pubkeypath}} root@{{hostvars[item]['ansible_ssh_host']}}
        responses:
          Question:
            - "yes"
