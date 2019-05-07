@@ -1,6 +1,6 @@
  - name: login to all hosts
    hosts: localhost
-   become: true
+   become: false
    gather_facts: true
    serial: "100%"
 
