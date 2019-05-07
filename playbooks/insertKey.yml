@@ -19,6 +19,6 @@
      args:
        executable: /usr/bin/expect
      register: response
-     changed_when: "'sure' in response.stdout"
+#     changed_when: "'sure' in response.stdout"
      with_items:
        - "{{ groups['nodes'] }}"
