@@ -1,4 +1,18 @@
  - name: login to all hosts
+   hosts: OSEv3
+   become: true
+   gather_facts: true
+   serial: "100%"
+
+   tasks:
+
+   - name: generate key file
+     file:
+       path: /root/.ssh/authorized_keys
+       state: absent
+
+     
+ - name: login to all hosts
    hosts: localhost
    become: true
    gather_facts: true
