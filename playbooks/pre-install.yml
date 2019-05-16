@@ -28,8 +28,8 @@
        - kexec-tools
        - sos
        - psacct
-       - atomic-openshift-docker-excluder
-       - atomic-openshift-excluder
+       - atomic-openshift-docker-excluder{{openshift_pkg_version}}
+       - atomic-openshift-excluder{{openshift_pkg_version}}
        - ntp
 
    - name:     Configure NTP | Add server lines to ntp.conf
