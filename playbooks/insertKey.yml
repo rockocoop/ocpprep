@@ -19,6 +19,6 @@
      args:
        executable: /usr/bin/expect
      register: response
-     changed_when: "'added' in response.stdout"
+#     changed_when: "'added' in response.stdout"
      with_items:
        - "{{ groups['OSEv3'] }}"
