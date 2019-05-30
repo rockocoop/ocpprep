@@ -1,0 +1,36 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+
+  - name: copy kubeconfig
+    fetch: 
+      src: /root/.kube/config
+      dest: ../kubeconfig
+      flat: yes      
+    delegate_to: "{{groups['masters'] | first}}"
+
+  - name: label new nodes with project label
+    shell: oc --config=../kubeconfig label node project={{projectName}}
+    with_items:
+      - "{{groups['new_nodes']}"
+
+  - name: update remote inventory ini file | clone repo
+    git:
+      repo: '{{gitlabUrl}}/{{repoName}}.git'
+      dest: ../
+
+  - name: update remote inventory ini file | change new_nodes to nodes
+    lineinfile:
+      path: ../{{repoName}}/inventories/{{dynamicinvfile}}
+      regexp: '^new_nodes'
+      line: nodes
+
+  - name: update remote inventory ini file | commit and push to repo
+    shell:  "cd ../{{repoName}} && git add . && git commit . '.' && git push origin master"
+
+
+
