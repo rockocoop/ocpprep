@@ -150,6 +150,11 @@
      include_tasks: include/etcdlvol.yml
      when: inventory_hostname in groups['etcd'] and pv_etcd is defined
 
+   - name: restart dnsmasq
+     service:
+       name: dnsmasq
+       state: restarted
+
 
    handlers:
    - name: docker_restart
