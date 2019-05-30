@@ -14,7 +14,7 @@
     delegate_to: "{{groups['masters'] | first}}"
 
   - name: label new nodes with project label
-    shell: oc --config=../kubeconfig label node project={{projectName}}
+    shell: oc --config=../kubeconfig label node {{item}} project={{projectName}}
     with_items:
       - "{{groups['new_nodes']}}"
 
