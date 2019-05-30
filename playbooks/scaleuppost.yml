@@ -31,6 +31,3 @@
 
   - name: update remote inventory ini file | commit and push to repo
     shell:  "cd ../{{repoName}} && git add . && git commit . '.' && git push origin master"
-
-
-
