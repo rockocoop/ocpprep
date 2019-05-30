@@ -16,7 +16,7 @@
   - name: label new nodes with project label
     shell: oc --config=../kubeconfig label node project={{projectName}}
     with_items:
-      - "{{groups['new_nodes']}"
+      - "{{groups['new_nodes']}}"
 
   - name: update remote inventory ini file | clone repo
     git:
