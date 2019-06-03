@@ -1,4 +1,4 @@
-Openshift on prem deployment playbooks:
+Openshift on prem deployment playbooks!
 
 Below is the procedure for running a disconnected install.  
 
