@@ -14,10 +14,21 @@
       flat: yes      
     delegate_to: "{{groups['masters'] | first}}"
 
+- hosts: new_nodes
+  gather_facts: false
+  become: true
+
+  tasks:
+
+
+  - name: get node info
+    shell: oc --config=../kubeconfig describe node {{inventory_hostname}}
+    register: node_proj
+    delegate_to: localhost
+
   - name: label new nodes with project label
     shell: oc --config=../kubeconfig label node {{item}} project={{projectName}}
-    with_items:
-      - "{{groups['new_nodes']}}"
+    when: 'project' not in node_proj.stdout
 
 #  - name: prepare repo clone dir
 #    file:
