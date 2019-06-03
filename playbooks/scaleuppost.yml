@@ -43,4 +43,4 @@
       replace: nodes
 
   - name: update remote inventory ini file | commit and push to repo
-    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git remote set-url origin https://{{ git_username }}:{{ git_password }}@gitlabUrl/{{repoName}}.git && git push origin master'
+    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git remote set-url origin https://{{ git_username }}:{{ git_password }}@{{gitlabUrl}}/{{repoName}}.git && git push origin master'
