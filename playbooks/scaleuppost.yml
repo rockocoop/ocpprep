@@ -33,6 +33,9 @@
       update: yes
       force: yes
 
+  - name: run git config for awx
+    shell: "git config --global user.email example@example.com && git config --global user.name example"
+
   - name: update remote inventory ini file | change new_nodes to nodes
     lineinfile:
       path: "clonedrepo/inventories/{{dynamicinvfile}}"
