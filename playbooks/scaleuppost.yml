@@ -27,7 +27,7 @@
 
   - name: update remote inventory ini file | clone repo
     git: 
-      repo: '{{gitlabUrl}}/{{repoName}}.git'
+      repo: 'https://{{gitlabUrl}}/{{repoName}}.git'
       dest: clonedrepo/
       clone: yes
       update: yes
