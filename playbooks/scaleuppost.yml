@@ -19,11 +19,11 @@
       - "{{groups['new_nodes']}}"
 
   - name: update remote inventory ini file | clone repo
-    shell: git clone '{{gitlabUrl}}/{{repoName}}.git'
+    shell: "git clone {{gitlabUrl}}/{{repoName}}.git"
 
   - name: update remote inventory ini file | change new_nodes to nodes
     lineinfile:
-      path: {{repoName}}/inventories/{{dynamicinvfile}}
+      path: "{{repoName}}/inventories/{{dynamicinvfile}}"
       regexp: '^new_nodes'
       line: nodes
 
