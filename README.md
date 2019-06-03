@@ -148,22 +148,22 @@ Scaling Up:
 2. Populate as follows for first scale up
 - all:vars section
 
-	`[all:vars]
-	`projectName=flintstones ##name of project to be deployed.  This will be the node label
+	`[all:vars]`
+	`projectName=flintstones ##name of project to be deployed.  This will be the node label`
 
 - new_nodes (example)
 
-	`[new_nodes]
-	`ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true
-	`ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true
+	`[new_nodes]`
+	`ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true`
+	`ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true`
 
 - new_nodes:vars
 
-	`[new_nodes:vars]
-	`vmCPUs=4
-	`vmMemory=16384
-	`vmDisk=40
-	`pv_device=sdb
+	`[new_nodes:vars]`
+	`vmCPUs=4`
+	`vmMemory=16384`
+	`vmDisk=40`
+	`pv_device=sdb`
 
 3. Run the OCP New Project Deploy with your Inventory File
 
