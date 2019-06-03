@@ -172,14 +172,15 @@ Scaling Up
 	pv_device=sdb <br />
 
 3. Run the OCP New Project Deploy WorfkFlow with your Inventory File
+
+   ``NOTE: <br /> I have noticed cases where I needed to SYNCH the Project Containing the Source File Before Running``
+
 - Deploy Virtual Machines: Same playbook as for deploying all hosts in virtual envrionment, but utilizes LIMIT option for 'new_nodes'
 - Distribute SSH Keys: Distributes SSH Keys to ALL hosts (same as in full new cluster deploy)
 - OCP Pre-Install: Runs Pre-install.yml on whole environment (same as in full new cluster deploy)
 - OCP Scale-Up: Runs openshift-ansible playbook for scale up playbooks/openshift-node/scaleup.yml
 - Post Scale-Up: Runs the scaleuppost.yml in this project for adding node labels for the specifid projectName 
 - Delete SSH Keys:  Removes the shared ssh key from the cluster
-
-	``NOTE: I have noticed cases where I needed to SYNCH the Project Containing the Source File Before Running``
 
 4. Once the Deployment is complete make the following updates to your inventory.ini file:
 
