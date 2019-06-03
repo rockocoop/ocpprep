@@ -137,15 +137,16 @@ Project ScaleUp
 
 In order to scaleup the cluster for dedicated project nodes, the following procedure should be followed:
 
-Prerequisite Configurations (can be done when setting up the environment):
+Prerequisite Configurations (should be done when setting up the environment):
 
-1. Add group "new_nodes" into your ansible tower inventory file (this can be done when initially creating the cluster inventory)
-2. Create a project in git and in ansible tower for source inventory files
+1. Add group "new_nodes" into your ansible tower inventory file as an associated group of OSEv3 
+2. Create a project in git and configure in ansible tower for source inventory files
 
-Scaling Up:
+Scaling Up
 
 1. Create an inventory.ini file in the source inventory git with a unique name for the cluster
-- This file will also be used for all subsequent Scale-Ups
+- This file will be used for all subsequent Scale-Ups
+- Use the Source From Project Option, select the project you created earlier and specify the file to use
 - Insure that the following settings ONLY are set when creating the source: <br />
 	Overwrite Vairables <br />
  	Update On Launch <br />
@@ -170,19 +171,43 @@ Scaling Up:
 	`vmDisk=40`<br />
 	`pv_device=sdb`<br />
 
-3. Run the OCP New Project Deploy with your Inventory File
+3. Run the OCP New Project Deploy WorfkFlow with your Inventory File
 - Deploy Virtual Machines: Same playbook as for deploying all hosts in virtual envrionment, but utilizes LIMIT option for 'new_nodes'
 - Distribute SSH Keys: Distributes SSH Keys to ALL hosts (same as in full new cluster deploy)
 - OCP Pre-Install: Runs Pre-install.yml on whole environment (same as in full new cluster deploy)
 - OCP Scale-Up: Runs openshift-ansible playbook for scale up playbooks/openshift-node/scaleup.yml
 - Post Scale-Up: Runs the scaleuppost.yml in this project for adding node labels for the specifid projectName 
+- Delete SSH Keys:  Removes the shared ssh key from the cluster
 
 4. Once the Deployment is complete make the following updates to your inventory.ini file:
 
 If this is the First ScaleUp:
-- create nodes section [nodes] and move the created nodes to that section
-- copy the [new_nodes:vars] section and rename [nodes:vars]
+- Create a nodes section [nodes] and move the created nodes to that section
+- Copy the [new_nodes:vars] section and rename [nodes:vars]
 
-If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section and delete the new_nodes:vars
+Below an example:
 
+[all:vars]<br />
+projectName=flintstones<br />
+
+[new_nodes]<br />
+
+[new_nodes:vars]<br />
+vmCPUs=4<br />
+vmMemory=16384<br />
+vmDisk=40<br />
+pv_device=sdb<br />
+
+[nodes]<br />
+ocpnode5.ocp1.test.com ansible_ssh_host=10.35.76.238 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode5.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
+ocpnode6.ocp1.test.com ansible_ssh_host=10.35.76.239 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode6.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
+
+[nodes:vars]
+vmCPUs=4
+vmMemory=16384
+vmDisk=40
+pv_device=sdb
+
+
+If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section
 
