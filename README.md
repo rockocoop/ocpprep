@@ -158,7 +158,7 @@ Scaling Up
 2. Populate as follows for first scale up
 - all:vars section
 
-	[all:vars]`<br />
+	[all:vars]<br />
 	projectName=flintstones ##name of project to be deployed.  This will be the node label <br />
 
 - new_nodes (example)
