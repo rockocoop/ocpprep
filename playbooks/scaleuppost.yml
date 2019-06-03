@@ -42,17 +42,5 @@
       regexp: 'new_nodes'
       replace: nodes
 
-  - name: perform ssh copy id to all nodes
-    shell: |
-      set prompt "#|>|\\\$"
-      spawn cd clonedrepo/ && git add . && git commit -m "." && git push origin master
-      expect {"Username" { send "rockocoop\r";exp_continue} "Password"}
-      send "rockocoop\r"
-      expect {"password:" { send "Bi11yJ3an!\r";exp_continue} "Bi11yJ3an!"}
-      send "Bi11yJ3an!\r"
-      expect -re $prompt
-    args:
-      executable: /usr/bin/expect
-
-#  - name: update remote inventory ini file | commit and push to repo
-#    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git push origin master'
+  - name: update remote inventory ini file | commit and push to repo
+    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git remote set-url origin https://{{ git_username }}:{{ git_password }}@gitlabUrl/{{repoName}}.git && git push origin master'
