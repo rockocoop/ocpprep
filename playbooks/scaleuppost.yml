@@ -22,22 +22,22 @@
 
   - name: prepare repo clone dir
     file:
-      path: /tmp/clonedrepo/
+      path: clonedrepo/
       state: directory
 
   - name: update remote inventory ini file | clone repo
     git: 
       repo: '{{gitlabUrl}}/{{repoName}}.git'
-      dest: /tmp/clonedrepo/
+      dest: clonedrepo/
       clone: yes
       update: yes
       force: yes
 
   - name: update remote inventory ini file | change new_nodes to nodes
     lineinfile:
-      path: "/tmp/clonedrepo/{{repoName}}/inventories/{{dynamicinvfile}}"
+      path: "clonedrepo/{{repoName}}/inventories/{{dynamicinvfile}}"
       regexp: '^new_nodes'
       line: nodes
 
   - name: update remote inventory ini file | commit and push to repo
-    shell:  'cd /tmp/clonedrepo/ && git add . && git commit . "." && git push origin master'
+    shell:  'cd clonedrepo/ && git add . && git commit . "." && git push origin master'
