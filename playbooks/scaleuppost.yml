@@ -17,6 +17,7 @@
     shell: oc --config=../kubeconfig label node {{item}} project={{projectName}}
     with_items:
       - "{{groups['new_nodes']}}"
+    ignore_errors: yes
 
   - name: update remote inventory ini file | clone repo
     shell: 'GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone {{gitlabUrl}}/{{repoName}}.git'
