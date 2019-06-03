@@ -130,3 +130,46 @@ In order to use this deployment option with the RHEL online registries do the fo
 - oreg_auth_password
 - oreg_auth_user
 4. Run procedure as above
+
+######################################################################################################
+
+Project ScaleUp
+
+In order to scaleup the cluster for dedicated project nodes, the following procedure should be followed:
+
+Prerequisite Configurations (can be done when setting up the environment)
+1. Add group "new_nodes" into your ansible tower inventory file (this can be done when initially creating the cluster inventory)
+2. Create a project in git and in ansible tower for source inventory files
+
+Scaling Up
+
+1. Create an inventory.ini file in the source inventory git with a unique name for the cluster
+2. Populate as follows for first scale up
+- all:vars section
+
+	[all:vars]
+	projectName=flintstones ##name of project to be deployed.  This will be the node label
+
+- new_nodes (example)
+
+	[new_nodes]
+	ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true
+	ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true
+
+- new_nodes:vars
+
+	[new_nodes:vars]
+	vmCPUs=4
+	vmMemory=16384
+	vmDisk=40
+	pv_device=sdb
+
+3. Run the OCP New Project Deploy with your Inventory File
+
+4. Once the Deployment is complete make the following updates to your inventory.ini file:
+
+If this is the First ScaleUp - change the group name in the source inventory.ini file to 'nodes' 
+
+If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section and delete the new_nodes:vars
+
+
