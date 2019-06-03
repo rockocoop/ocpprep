@@ -2,6 +2,7 @@
 
 - hosts: localhost
   gather_facts: false
+  become: true
 
   tasks:
 
@@ -19,14 +20,24 @@
       - "{{groups['new_nodes']}}"
     ignore_errors: yes
 
+  - name: prepare repo clone dir
+    file:
+      path: /tmp/clonedrepo/
+      state: directory
+
   - name: update remote inventory ini file | clone repo
-    shell: 'GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone {{gitlabUrl}}/{{repoName}}.git'
+    git: 
+      repo: '{{gitlabUrl}}/{{repoName}}.git'
+      dest: /tmp/clonedrepo/
+      clone: yes
+      update: yes
+      force: yes
 
   - name: update remote inventory ini file | change new_nodes to nodes
     lineinfile:
-      path: "{{repoName}}/inventories/{{dynamicinvfile}}"
+      path: "/tmp/clonedrepo/{{repoName}}/inventories/{{dynamicinvfile}}"
       regexp: '^new_nodes'
       line: nodes
 
   - name: update remote inventory ini file | commit and push to repo
-    shell:  'cd {{repoName}} && git add . && git commit . "." && GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push origin master'
+    shell:  'cd /tmp/clonedrepo/ && git add . && git commit . "." && git push origin master'
