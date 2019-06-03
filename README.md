@@ -145,6 +145,11 @@ Prerequisite Configurations (can be done when setting up the environment):
 Scaling Up:
 
 1. Create an inventory.ini file in the source inventory git with a unique name for the cluster
+- This file will also be used for all subsequent Scale-Ups
+- Insure that the following settings ONLY are set when creating the source: <br />
+	Overwrite Vairables <br />
+ 	Update On Launch <br />
+	
 2. Populate as follows for first scale up
 - all:vars section
 
@@ -166,10 +171,17 @@ Scaling Up:
 	`pv_device=sdb`<br />
 
 3. Run the OCP New Project Deploy with your Inventory File
+- Deploy Virtual Machines: Same playbook as for deploying all hosts in virtual envrionment, but utilizes LIMIT option for 'new_nodes'
+- Distribute SSH Keys: Distributes SSH Keys to ALL hosts (same as in full new cluster deploy)
+- OCP Pre-Install: Runs Pre-install.yml on whole environment (same as in full new cluster deploy)
+- OCP Scale-Up: Runs openshift-ansible playbook for scale up playbooks/openshift-node/scaleup.yml
+- Post Scale-Up: Runs the scaleuppost.yml in this project for adding node labels for the specifid projectName 
 
 4. Once the Deployment is complete make the following updates to your inventory.ini file:
 
-If this is the First ScaleUp - change the group name in the source inventory.ini file to 'nodes' 
+If this is the First ScaleUp:
+- create nodes section [nodes] and move the created nodes to that section
+- copy the [new_nodes:vars] section and rename [nodes:vars]
 
 If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section and delete the new_nodes:vars
 
