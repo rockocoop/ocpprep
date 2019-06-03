@@ -187,18 +187,23 @@ Scaling Up
 - Post Scale-Up: Runs the scaleuppost.yml in this project for adding node labels for the specifid projectName 
 - Delete SSH Keys:  Removes the shared ssh key from the cluster
 
-4. Once the Deployment is complete make the following updates to your inventory.ini file:
+4. Once the Deployment is complete, for the next scale up make the following updates to your inventory.ini file:
 
 If this is the First ScaleUp:
 - Create a nodes section [nodes] and move the created nodes to that section
 - Copy the [new_nodes:vars] section and rename [nodes:vars]
+- Create the new nodes in the new_nodes section
+- Update the projectName parameter
 
 Below an example:
 
 [all:vars]<br />
-projectName=flintstones<br />
+projectName=jetsons<br />
 
 [new_nodes]<br />
+ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
+ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
+
 
 [new_nodes:vars]<br />
 vmCPUs=4<br />
@@ -216,6 +221,4 @@ vmMemory=16384
 vmDisk=40
 pv_device=sdb
 
-
-If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section
 
