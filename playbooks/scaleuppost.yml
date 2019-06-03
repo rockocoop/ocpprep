@@ -37,10 +37,10 @@
     shell: "git config --global user.email example@example.com && git config --global user.name example"
 
   - name: update remote inventory ini file | change new_nodes to nodes
-    lineinfile:
+    replace:
       path: "clonedrepo/inventories/{{dynamicinvfile}}"
-      regexp: '^new_nodes'
-      line: nodes
+      regexp: 'new_nodes'
+      replace: nodes
 
   - name: update remote inventory ini file | commit and push to repo
     shell:  'cd clonedrepo/ && git add . && git commit -m "." && git push origin master'
