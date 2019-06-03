@@ -154,22 +154,22 @@ Scaling Up
 2. Populate as follows for first scale up
 - all:vars section
 
-	`[all:vars]`<br />
-	`projectName=flintstones ##name of project to be deployed.  This will be the node label`<br />
+	``[all:vars]`<br />
+	projectName=flintstones ##name of project to be deployed.  This will be the node label <br />``
 
 - new_nodes (example)
 
-	``[new_nodes]``<br />
-	 ``ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true``<br />
-	``ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true``<br />
+	``[new_nodes]<br />
+	ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true <br />
+	ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true <br />``
 
 - new_nodes:vars
 
-	`[new_nodes:vars]`<br />
-	`vmCPUs=4`<br />
-	`vmMemory=16384`<br />
-	`vmDisk=40`<br />
-	`pv_device=sdb`<br />
+	``[new_nodes:vars] <br />
+	vmCPUs=4 <br />
+	vmMemory=16384 <br />
+	vmDisk=40 <br />
+	pv_device=sdb <br />``
 
 3. Run the OCP New Project Deploy WorfkFlow with your Inventory File
 - Deploy Virtual Machines: Same playbook as for deploying all hosts in virtual envrionment, but utilizes LIMIT option for 'new_nodes'
@@ -189,7 +189,7 @@ If this is the First ScaleUp:
 
 Below an example:
 
-[all:vars]<br />
+``[all:vars]<br />
 projectName=flintstones<br />
 
 [new_nodes]<br />
@@ -208,7 +208,7 @@ ocpnode6.ocp1.test.com ansible_ssh_host=10.35.76.239 netmask=255.255.255.128 gat
 vmCPUs=4
 vmMemory=16384
 vmDisk=40
-pv_device=sdb
+pv_device=sdb``
 
 
 If this is a Subsequent ScaleUp - Move the entries from the new_nodes section to the nodes section
