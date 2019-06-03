@@ -189,11 +189,11 @@ Scaling Up
 
 4. Once the Deployment is complete, for the next scale up make the following updates to your inventory.ini file:
 
-If this is the First ScaleUp:
-- Create a nodes section [nodes] and move the created nodes to that section
-- Copy the [new_nodes:vars] section and rename [nodes:vars]
+- Create a nodes section [nodes] if it doesnt exist and move the created nodes to that section
+- Copy the [new_nodes:vars] section and rename [nodes:vars] if the section doesnt exist yet
 - Create the new nodes in the new_nodes section
 - Update the projectName parameter
+- Run the Workflow
 
 Below an example:
 
