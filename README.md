@@ -179,6 +179,8 @@ Scaling Up
 - Post Scale-Up: Runs the scaleuppost.yml in this project for adding node labels for the specifid projectName 
 - Delete SSH Keys:  Removes the shared ssh key from the cluster
 
+	``NOTE: Make Sure to SYNCH the Project Containing the Source File Before Running``
+
 4. Once the Deployment is complete make the following updates to your inventory.ini file:
 
 If this is the First ScaleUp:
