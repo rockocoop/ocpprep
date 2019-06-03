@@ -43,4 +43,4 @@
       line: nodes
 
   - name: update remote inventory ini file | commit and push to repo
-    shell:  'cd clonedrepo/ && git add . && git commit . "." && git push origin master'
+    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git push origin master'
