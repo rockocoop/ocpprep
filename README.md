@@ -150,9 +150,9 @@ Scaling Up
 
 1. Create an inventory.ini file in the source inventory git with a unique name for the cluster
 - This file will be used for all subsequent Scale-Ups
-- Use the Source From Project Option, select the project you created earlier and specify the file to use
+- Use the Source from Project option, select the project you created earlier and specify the file to use
 - Insure that the following settings ONLY are set when creating the source: <br />
-	Overwrite Vairables <br />
+	Overwrite Variables <br />
  	Update On Launch <br />
 	
 2. Populate as follows for first scale up
