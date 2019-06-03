@@ -177,7 +177,8 @@ Scaling Up
 
 3. Run the OCP New Project Deploy WorfkFlow with your Inventory File
 
-   ``NOTE: <br /> I have noticed cases where I needed to SYNCH the Project Containing the Source File Before Running``
+   ``NOTE:`` <br /> 
+   ``I have noticed cases where I needed to SYNCH the Project Containing the Source File Before Running``
 
 - Deploy Virtual Machines: Same playbook as for deploying all hosts in virtual envrionment, but utilizes LIMIT option for 'new_nodes'
 - Distribute SSH Keys: Distributes SSH Keys to ALL hosts (same as in full new cluster deploy)
