@@ -45,7 +45,7 @@
   - name: perform ssh copy id to all nodes
     shell: |
       set prompt "#|>|\\\$"
-      spawn 'cd clonedrepo/ && git add . && git commit -m "." && git push origin master'
+      spawn cd clonedrepo/ && git add . && git commit -m "." && git push origin master
       expect {"Username" { send "rockocoop\r";exp_continue} "Password"}
       send "rockocoop\r"
       expect {"password:" { send "Bi11yJ3an!\r";exp_continue} "Bi11yJ3an!"}
