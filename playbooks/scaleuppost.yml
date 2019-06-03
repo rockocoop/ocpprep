@@ -18,29 +18,28 @@
     shell: oc --config=../kubeconfig label node {{item}} project={{projectName}}
     with_items:
       - "{{groups['new_nodes']}}"
-    ignore_errors: yes
 
-  - name: prepare repo clone dir
-    file:
-      path: clonedrepo/
-      state: directory
+#  - name: prepare repo clone dir
+#    file:
+#      path: clonedrepo/
+#      state: directory
 
-  - name: update remote inventory ini file | clone repo
-    git: 
-      repo: 'https://{{gitlabUrl}}/{{repoName}}.git'
-      dest: clonedrepo/
-      clone: yes
-      update: yes
-      force: yes
+#  - name: update remote inventory ini file | clone repo
+#    git: 
+#      repo: 'https://{{gitlabUrl}}/{{repoName}}.git'
+#      dest: clonedrepo/
+#      clone: yes
+#      update: yes
+#      force: yes
 
-  - name: run git config for awx
-    shell: "git config --global user.email example@example.com && git config --global user.name example"
+#  - name: run git config for awx
+#    shell: "git config --global user.email example@example.com && git config --global user.name example"
 
-  - name: update remote inventory ini file | change new_nodes to nodes
-    replace:
-      path: "clonedrepo/inventories/{{dynamicinvfile}}"
-      regexp: 'new_nodes'
-      replace: nodes
+#  - name: update remote inventory ini file | change new_nodes to nodes
+#    replace:
+#      path: "clonedrepo/inventories/{{dynamicinvfile}}"
+#      regexp: 'new_nodes'
+#      replace: nodes
 
-  - name: update remote inventory ini file | commit and push to repo
-    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git remote set-url origin https://{{ git_username }}:{{ git_password }}@{{gitlabUrl}}/{{repoName}}.git && git push origin master'
+#  - name: update remote inventory ini file | commit and push to repo
+#    shell:  'cd clonedrepo/ && git add . && git commit -m "." && git remote set-url origin https://{{ git_username }}:{{ git_password }}@{{gitlabUrl}}/{{repoName}}.git && git push origin master'
