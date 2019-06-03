@@ -35,7 +35,7 @@
 
   - name: update remote inventory ini file | change new_nodes to nodes
     lineinfile:
-      path: "clonedrepo/{{repoName}}/inventories/{{dynamicinvfile}}"
+      path: "clonedrepo/inventories/{{dynamicinvfile}}"
       regexp: '^new_nodes'
       line: nodes
 
