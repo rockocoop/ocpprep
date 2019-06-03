@@ -137,8 +137,9 @@ Project ScaleUp via Ansible Tower Workflow
 
 In order to scaleup the cluster for dedicated project nodes, the following procedure should be followed:
 
-``Note: In this section, all references to Virtualization Automation is Based on the following project:<br />
-  https://github.com/rockocoop/vmware-ansible.git``
+``Note: In this section, all references to Virtualization Automation is Based on the following project:``<br />
+  
+  ``https://github.com/rockocoop/vmware-ansible.git``
 
 Prerequisite Configurations (should be done when setting up the environment):
 
