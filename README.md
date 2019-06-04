@@ -152,6 +152,7 @@ Scaling Up
 - This file will be used for all subsequent Scale-Ups
 - Use the Source from Project option, select the project you created earlier and specify the file to use
 - Insure that the following settings ONLY are set when creating the source: <br />
+	Overwrite <br />
 	Overwrite Variables <br />
  	Update On Launch <br />
 	
