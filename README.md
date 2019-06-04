@@ -202,7 +202,7 @@ projectName=jetsons<br />
 
 [new_nodes]<br />
 ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.240 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode7.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
-ocpnode7.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
+ocpnode8.ocp1.test.com ansible_ssh_host=10.35.76.241 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode8.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
 
 
 [new_nodes:vars]<br />
@@ -210,15 +210,14 @@ vmCPUs=4<br />
 vmMemory=16384<br />
 vmDisk=40<br />
 pv_device=sdb<br />
-
 [nodes]<br />
 ocpnode5.ocp1.test.com ansible_ssh_host=10.35.76.238 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode5.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
 ocpnode6.ocp1.test.com ansible_ssh_host=10.35.76.239 netmask=255.255.255.128 gateway=10.35.76.254 hostname=ocpnode6.ocp1.test.com vlan="VM Network" disks=[30] openshift_node_group_name='node-config-compute' openshift_node_problem_detector_install=true<br />
 
-[nodes:vars]
-vmCPUs=4
-vmMemory=16384
-vmDisk=40
-pv_device=sdb
+[nodes:vars]<br />
+vmCPUs=4<br />
+vmMemory=16384<br />
+vmDisk=40<br />
+pv_device=sdb<br />
 
 
