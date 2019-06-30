@@ -7,7 +7,6 @@
   file:
    path: /etc/yum.repos.d/.oldrepos
    state: directory
-  tags: mkdir_oldrepos
 
 - name: Check to see if any repo files found in /etc/yum.repos.d
   find:
@@ -17,8 +16,7 @@
 
 - name: Move all yum.repo files to /etc/yum.repos.d/.oldrepos
   shell: "mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/.oldrepos/"
-  tags: mv_repo
-  when: repo_files.matched|int > 0
+  when: repo_files.matched|int > 1
 
 - name: Register and attach to pool
   redhat_subscription:
@@ -35,10 +33,3 @@
 - name: Attach to needed subscriptions
   shell: 'subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ose-3.11-rpms"'
   when: "loginrhel.changed == true"
-
-#- name: Log into rhel io registry 
-#  docker_login:
-#    registry: registry.redhat.io
-#    username: "{{rheluser}}"
-#    password: "{{rhelpass}}"
-#  when: "inventory_hostname not in groups['lb']"
