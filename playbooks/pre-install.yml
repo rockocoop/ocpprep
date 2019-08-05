@@ -6,6 +6,12 @@
 
    tasks:
 
+   - name: update resolv file for dns
+     template:
+       src: templates/resolv.j2
+       dest: /etc/resolv.conf
+     when: dns is defined
+
    - include: include/setup_internal_repos.yml
      when: yumrepo_url is defined
 
@@ -44,12 +50,6 @@
        name: ntpd 
        enabled: yes 
        state: started
-
-   - name: update resolv file for dns
-     template:
-       src: templates/resolv.j2
-       dest: /etc/resolv.conf
-     when: dns is defined
 
    - name: set hostname
      hostname:
