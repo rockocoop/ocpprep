@@ -34,9 +34,25 @@
        - kexec-tools
        - sos
        - psacct
+       - ntp
+
+   - name: Install atomic openshift packages
+     package:
+       name: "{{item}}"
+       state: present
+     with_items:
        - atomic-openshift-docker-excluder{{openshift_pkg_version}}
        - atomic-openshift-excluder{{openshift_pkg_version}}
-       - ntp
+     when: openshift_pkg_version is defined
+
+   - name: Install atomic openshift packages
+     package:
+       name: "{{item}}"
+       state: present
+     with_items:
+       - atomic-openshift-docker-excluder
+       - atomic-openshift-excluder
+     when: openshift_pkg_version is not defined
 
    - name:     Configure NTP | Add server lines to ntp.conf
      template:
