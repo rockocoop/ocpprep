@@ -76,7 +76,7 @@
        path: /etc/hosts
        line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].hostname }}"
        state: present
-     when: 'hostvars[item].ansible_default_ipv4.address is defined'
+     when: 'hostvars[item].ansible_default_ipv4.address is defined and buildHostsFile is defined'
      with_items:
        - "{{ groups['OSEv3'] }}"
 
