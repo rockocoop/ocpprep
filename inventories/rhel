@@ -1,0 +1,20 @@
+all:
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ControlMaster=auto -o
+      ControlPersist=60s -o PreferredAuthentications=publickey"
+    ansible_become: false
+    cluster_timezone: UTC
+    searchdomain: ocp2.rhevtest.com
+    dns:
+    - 8.8.8.8
+    template: rhel76cloudinit
+    roottemppas: redhat
+    rheluser: rockocoop
+    rhelpass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33323337383765306138363233313435386533343263613864356335343435333935356163646338
+          6232343030376635363865636335306234363631653634620a643537373231663366643564616533
+          32393364663335343039653832373635323735666338653232646336623832323930313263333337
+          3837613638343765340a316363663132643132306663666536383262613438313265336361636566
+          3562
+    rhelpool: 8a85f99c6901e2240169036aacd366d9
