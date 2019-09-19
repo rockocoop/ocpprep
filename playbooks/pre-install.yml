@@ -71,6 +71,12 @@
      hostname:
        name: "{{ hostname }}"
 
+    - name: Build hosts entry for node
+     lineinfile:
+       path: /etc/hosts
+       line: "{{ ansible_default_ipv4.address }} {{ hostname }}"
+       state: present
+
    - name: Build hosts file
      lineinfile:
        path: /etc/hosts
