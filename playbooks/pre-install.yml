@@ -168,7 +168,7 @@
 
    - name: remove cloud-init if present
      service: cloud-init
-     state: absent
+       state: absent
 
    handlers:
    - name: docker_restart
