@@ -166,6 +166,9 @@
      include_tasks: include/etcdlvol.yml
      when: inventory_hostname in groups['etcd'] and pv_etcd is defined
 
+   - name: remove cloud-init if present
+     service: cloud-init
+     state: absent
 
    handlers:
    - name: docker_restart
