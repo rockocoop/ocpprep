@@ -1,0 +1,5 @@
+[all]
+ansible_user=grakover
+
+[masters]
+ocpmas1.us-east1-b.c.guyrakover.internal hostname=ocpmas1

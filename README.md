@@ -222,3 +222,9 @@ vmDisk=40<br />
 pv_device=sdb<br />
 
 
+
+#################################################################
+
+mmpost.yaml
+
+Applies templates to catalog, as well as blocks users from creating projects

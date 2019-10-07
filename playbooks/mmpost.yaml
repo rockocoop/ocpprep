@@ -1,0 +1,51 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  become: true
+
+  tasks:
+
+
+  - name: copy kubeconfig
+    fetch:
+      src: /root/.kube/config
+      dest: ../kubeconfig
+      flat: yes
+    delegate_to: "{{groups['masters'] | first}}"
+
+- hosts: localhost
+  gather_facts: false
+  become: false
+
+  roles:
+  - ocppost 
+
+
+- hosts: masters
+  gather_facts: false
+  become: true
+
+ 
+  tasks:
+
+  - name: update master config yaml with project request limits
+    blockinfile:
+      insertafter: "pluginConfig"
+      path: /etc/origin/master/master-config.yaml
+      block: |2
+            ProjectRequestLimit:
+              configuration:
+                  apiVersion: v1
+                  kind: ProjectRequestLimitConfig
+                  limits:
+                  - selector:
+                          level: admin
+                  - maxProjects: 0
+
+- hosts: masters
+  gather_facts: false
+  become: true
+
+  roles:
+  - restart_nodes
