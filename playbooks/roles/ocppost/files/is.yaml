@@ -3,11 +3,8 @@ kind: ImageStream
 metadata:
   annotations:
     openshift.io/display-name: Jenkins
-    openshift.io/image.dockerRepositoryCheck: 2019-10-01T18:28:51Z
-  creationTimestamp: null
-  generation: 1
   name: jenkins
-  selfLink: /apis/image.openshift.io/v1/namespaces/openshift/imagestreams/jenkins
+  namespace: openshift
 spec:
   lookupPolicy:
     local: false
@@ -70,11 +67,8 @@ kind: ImageStream
 metadata:
   annotations:
     openshift.io/display-name: MongoDB
-    openshift.io/image.dockerRepositoryCheck: 2019-10-01T18:28:55Z
-  creationTimestamp: null
-  generation: 1
   name: mongodb
-  selfLink: /apis/image.openshift.io/v1/namespaces/openshift/imagestreams/mongodb
+  namespace: openshift
 spec:
   lookupPolicy:
     local: false

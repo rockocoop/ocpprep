@@ -20,9 +20,8 @@ metadata:
     openshift.io/provider-display-name: Red Hat, Inc.
     openshift.io/support-url: https://access.redhat.com
     tags: instant-app,jenkins
-  creationTimestamp: null
   name: jenkins-persistent
-  selfLink: /apis/template.openshift.io/v1/namespaces/openshift/templates/jenkins-persistent
+  namespace: openshift
 objects:
 - apiVersion: v1
   kind: Route
@@ -141,15 +140,18 @@ objects:
   kind: RoleBinding
   metadata:
     name: ${JENKINS_SERVICE_NAME}_edit
+    namespace: openshift
   roleRef:
     name: edit
   subjects:
   - kind: ServiceAccount
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
 - apiVersion: v1
   kind: Service
   metadata:
     name: ${JNLP_SERVICE_NAME}
+    namespace: openshift
   spec:
     ports:
     - name: agent
@@ -169,6 +171,7 @@ objects:
         "namespace": "", "kind": "Service"}]'
       service.openshift.io/infrastructure: "true"
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
   spec:
     ports:
     - name: web
@@ -250,6 +253,7 @@ metadata:
     tags: instant-app,jenkins
   creationTimestamp: null
   name: jenkins-ephemeral
+  namespace: openshift
   selfLink: /apis/template.openshift.io/v1/namespaces/openshift/templates/jenkins-ephemeral
 objects:
 - apiVersion: v1
@@ -259,6 +263,7 @@ objects:
       haproxy.router.openshift.io/timeout: 4m
       template.openshift.io/expose-uri: http://{.spec.host}{.spec.path}
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
   spec:
     tls:
       insecureEdgeTerminationPolicy: Redirect
@@ -272,6 +277,7 @@ objects:
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
   spec:
     replicas: 1
     selector:
@@ -357,11 +363,13 @@ objects:
   kind: RoleBinding
   metadata:
     name: ${JENKINS_SERVICE_NAME}_edit
+    namespace: openshift
   roleRef:
     name: edit
   subjects:
   - kind: ServiceAccount
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
 - apiVersion: v1
   kind: Service
   metadata:
@@ -385,6 +393,7 @@ objects:
         "namespace": "", "kind": "Service"}]'
       service.openshift.io/infrastructure: "true"
     name: ${JENKINS_SERVICE_NAME}
+    namespace: openshift
   spec:
     ports:
     - name: web

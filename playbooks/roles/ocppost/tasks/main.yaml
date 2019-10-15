@@ -1,6 +1,19 @@
-- name: delete image streams
-  shell: "oc --config=../kubeconfig delete is --all -n openshift"
+#- name: Create Image Streams
+#  k8s:
+#    kubeconfig: ../kubeconfig
+#    state: present
+#    src: roles/ocppost/files/is.yaml
 
+#- name: Create Catalog Templates
+#  k8s:
+#    kubeconfig: ../kubeconfig
+#    state: present
+#    src: roles/ocppost/files/templates.yaml
+
+# - name: get image stream list
+#   shell: "oc --config=../kubeconfig get is -n openshift"
+#   register: isList
+#
 - name: delete templates
   shell: "oc --config=../kubeconfig delete templates --all -n openshift"
 

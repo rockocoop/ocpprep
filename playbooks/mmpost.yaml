@@ -42,10 +42,28 @@
                   - selector:
                           level: admin
                   - maxProjects: 0
+      register: blockupdate
 
-- hosts: masters
-  gather_facts: false
-  become: true
+  - name: node check | insure workaround in place for pods restarts
+    shell:  'echo -e "r /etc/cni/net.d/80-openshift-network.conf\nr /etc/origin/openvswitch/conf.db"  > /usr/lib/tmpfiles.d/cleanup-cni.conf'
+    when: blockupdate.changed == True
 
-  roles:
-  - restart_nodes
+  - name: node check | reboot node
+    reboot:
+    when: blockupdate.changed == True
+
+  - name: node check | wait for node to appear as ready
+    shell: "oc --config=../kubeconfig get nodes |grep -i {{hostname}}|grep -i Ready"
+    register: oc_node_ready
+    until: "'NotReady' not in oc_node_ready.stdout and 'Ready' in oc_node_ready.stdout"
+    retries: 60
+    delay: 2
+    delegate_to: localhost
+    when: blockupdate.changed == True
+
+#- hosts: masters
+#  gather_facts: false
+#  become: true
+#
+#  roles:
+#  - restart_nodes
