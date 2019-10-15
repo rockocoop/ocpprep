@@ -60,10 +60,3 @@
     delay: 2
     delegate_to: localhost
     when: blockupdate.changed == True
-
-#- hosts: masters
-#  gather_facts: false
-#  become: true
-#
-#  roles:
-#  - restart_nodes
