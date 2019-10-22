@@ -1,0 +1,36 @@
+#- name: Create Image Streams
+#  k8s:
+#    kubeconfig: ../kubeconfig
+#    state: present
+#    src: roles/ocppost/files/is.yaml
+
+#- name: Create Catalog Templates
+#  k8s:
+#    kubeconfig: ../kubeconfig
+#    state: present
+#    src: roles/ocppost/files/templates.yaml
+
+# - name: get image stream list
+#   shell: "oc --config=../kubeconfig get is -n openshift"
+#   register: isList
+#
+- name: delete templates
+  shell: "oc --config=../kubeconfig delete templates --all -n openshift"
+
+- name: create customized image streams
+  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/is.yaml -n openshift"
+
+- name: create customized teamplates
+  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/templates.yaml -n openshift"
+
+- name: restart kube-service-catalog
+  shell: "oc --config=../kubeconfig delete pods --all -n kube-service-catalog"
+
+- name: create project template
+  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/project_request.yaml -n default"
+
+- name: label infra nodes for router
+  shell: " oc --config=../kubeconfig label namespace default router=ingress"
+  register: router
+  changed_when: "'already' not in router.stderr"
+  failed_when: "'Error' in router.stderr"

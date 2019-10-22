@@ -1,36 +1,58 @@
-#- name: Create Image Streams
-#  k8s:
-#    kubeconfig: ../kubeconfig
-#    state: present
-#    src: roles/ocppost/files/is.yaml
+- name: Delete Unused Image Streams
+  k8s:
+    kubeconfig: ../kubeconfig
+    state: absent
+    kind: ImageStream
+    name: "{{item}}"
+    namespace: openshift
+  with_items:
+  - "{{defaultimagestreams}}"
 
-#- name: Create Catalog Templates
-#  k8s:
-#    kubeconfig: ../kubeconfig
-#    state: present
-#    src: roles/ocppost/files/templates.yaml
+- name: Delete Templates
+  shell: "oc --config=../kubeconfig delete template {{item}} -n openshift"
+  register: delTemps
+  changed_when: '"deleted" in delTemps.stdout'
+  failed_when: '"resource" in delTemps.stdout'
+  with_items:
+  - "{{defaultTemplates}}"
 
-# - name: get image stream list
-#   shell: "oc --config=../kubeconfig get is -n openshift"
-#   register: isList
-#
-- name: delete templates
-  shell: "oc --config=../kubeconfig delete templates --all -n openshift"
+- name: Create Image Streams
+  k8s:
+    kubeconfig: ../kubeconfig
+    state: present
+    src: roles/ocppost/files/{{item}}.yaml
+  register: createIs
+  with_items:
+  - "{{customImageStreams}}"
 
-- name: create customized image streams
-  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/is.yaml -n openshift"
+- name: Create Catalog Templates
+  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/{{item}}.yaml -n openshift"
+  register: delTemps
+  changed_when: '"created" in delTemps.stdout'
+  with_items:
+  - "{{customTemplates}}"
 
-- name: create customized teamplates
-  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/templates.yaml -n openshift"
-
-- name: restart kube-service-catalog
+- name: Restart kube-service-catalog
   shell: "oc --config=../kubeconfig delete pods --all -n kube-service-catalog"
+  when: delTemps.changed == True or createIs.changed == True
 
-- name: create project template
-  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/project_request.yaml -n default"
+- name: Wait for kube-service-catalog pods to be Running
+  shell: "oc --config=../kubeconfig get pods -n kube-service-catalog |grep -i Running"
+  register: oc_get_pods
+  until: "'Running' in oc_get_pods.stdout and 'deploy' not in oc_get_pods.stdout"
+  retries: 60
+  delay: 2
+  when: delTemps.changed == True or createIs.changed == True
 
-- name: label infra nodes for router
+- name: Label infra nodes for router
   shell: " oc --config=../kubeconfig label namespace default router=ingress"
   register: router
   changed_when: "'already' not in router.stderr"
   failed_when: "'Error' in router.stderr"
+
+- name: create project template
+  shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/project_request.yaml -n default"
+  register: projTemps
+  changed_when: '"created" in projTemps.stdout'
+
+
