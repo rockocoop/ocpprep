@@ -5,12 +5,14 @@
     kind: ImageStream
     name: "{{item}}"
     namespace: openshift
+  notify: kscRestart
   with_items:
   - "{{defaultimagestreams}}"
 
 - name: Delete Templates
   shell: "oc --config=../kubeconfig delete template {{item}} -n openshift"
   register: delTemps
+  notify: kscRestart
   changed_when: '"deleted" in delTemps.stdout'
   failed_when: '"resource" in delTemps.stdout'
   with_items:
@@ -21,28 +23,17 @@
     kubeconfig: ../kubeconfig
     state: present
     src: roles/ocppost/files/{{item}}.yaml
-  register: createIs
+  notify: kscRestart
   with_items:
   - "{{customImageStreams}}"
 
 - name: Create Catalog Templates
   shell: "oc --config=../kubeconfig apply -f roles/ocppost/files/{{item}}.yaml -n openshift"
-  register: delTemps
-  changed_when: '"created" in delTemps.stdout'
+  notify: kscRestart
+  register: createTemps
+  changed_when: '"created" in createTemps.stdout'
   with_items:
   - "{{customTemplates}}"
-
-- name: Restart kube-service-catalog
-  shell: "oc --config=../kubeconfig delete pods --all -n kube-service-catalog"
-  when: delTemps.changed == True or createIs.changed == True
-
-- name: Wait for kube-service-catalog pods to be Running
-  shell: "oc --config=../kubeconfig get pods -n kube-service-catalog |grep -i Running"
-  register: oc_get_pods
-  until: "'Running' in oc_get_pods.stdout and 'deploy' not in oc_get_pods.stdout"
-  retries: 60
-  delay: 2
-  when: delTemps.changed == True or createIs.changed == True
 
 - name: Label infra nodes for router
   shell: " oc --config=../kubeconfig label namespace default router=ingress"
