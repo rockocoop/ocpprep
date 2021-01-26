@@ -1,0 +1,26 @@
+{
+        "ignition": {
+                "config": {
+                        "append": [
+                          {
+                                "source": "http://10.35.97.70/bootstrap.ign",
+                                "verification": {}
+                           }
+                        ]
+                },
+                "timeouts": {},
+                "version": "2.1.0"
+        },
+        "networkd": {},
+        "passwd": {},
+        "storage": {
+          "files": [{
+            "filesystem": "root",
+            "path": "/etc/hostname",
+            "mode": 420,
+            "contents": { "source": "data:,bootstrap" }
+          }]
+	},
+        "systemd": {}
+}
+
