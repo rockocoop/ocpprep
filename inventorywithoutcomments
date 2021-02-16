@@ -1,0 +1,26 @@
+localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
+[all:vars]
+dockerhub_base=ansible
+openshift_host=api.joker.openshift4.com:6443
+openshift_project=awx
+openshift_user=admin
+openshift_password=redhat
+openshift_skip_tls_verify=True
+pg_hostname=postgresql.awx.svc
+pg_username=awx
+pg_password=awx
+pg_database=awx
+pg_port=5432
+rabbitmq_password=awxpass
+rabbitmq_erlang_cookie=cookiemonster
+admin_user=admin
+admin_password=password
+create_preload_data=True
+secret_key=awxsecret
+
+
+
+
+
+
+
